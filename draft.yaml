@@ -1,0 +1,9 @@
+models:
+  EmployeePP:
+    softDeletes
+
+controllers:
+  EmployeePP:
+    resource
+
+seeders: EmployeePP

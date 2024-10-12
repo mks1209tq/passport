@@ -18,3 +18,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::resource('employees', App\Http\Controllers\EmployeeController::class);
+
+
+Route::resource('employee-pps', App\Http\Controllers\EmployeePPController::class);
