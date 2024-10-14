@@ -24,10 +24,15 @@ if exist .env.example (
     echo .env.example not found. Skipping this step.
 )
 
-echo Running migrations and seeding database...
-call php artisan migrate --seed --force
+@REM echo Running migrations and seeding database...
+@REM call php artisan migrate --seed --force
 
 echo Generating application key...
 call php artisan key:generate
 
-echo Setup complete!
+echo npm install
+call npm install
+
+echo Setup complete, enter directory and run migrations and seeding database!
+
+echo php artisan migrate --seed --force
