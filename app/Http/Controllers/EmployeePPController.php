@@ -46,11 +46,46 @@ class EmployeePPController extends Controller
 
     public function update(EmployeePPUpdateRequest $request, EmployeePP $employeePP)
     {
-        $employeePP->update($request->validated());
+        
+        // dd($employeePP);
+
+        $employeePP = EmployeePP::findOrFail($request->id);
+
+        // dd($employeePP);
+
+        // Log the raw request data
+        \Log::info('Raw request data:', $request->all());
+
+        
+        \Log::info('Validated data:', $request->validated());
+
+        // $result = $employeePP->update($request->validated());
+
+        $result = $employeePP->update([
+            'employee_id' => $request->input('employee_id')
+        ]);
+
+        if (!$result) {
+            return redirect()->back()->with('error', 'Failed to update employee.');
+        }
+        
+        // Log the result and the model state
+        \Log::info('Update result: ' . ($result ? 'success' : 'failure'));
+        \Log::info('EmployeePP after update:', [
+            'attributes' => $employeePP->getAttributes(),
+        'original' => $employeePP->getOriginal(),
+        'changes' => $employeePP->getChanges(),
+    ]);
 
         $request->session()->flash('employeePP.id', $employeePP->id);
 
-        return redirect()->route('employee-pps.index');
+        //dd('Point 1: Before redirect attempt');
+
+        $redirectResponse = redirect()->route('dashboard');
+
+        // dd('Point 2: After redirect creation');
+
+        return redirect()->route('dashboard');
     }
 
     public function destroy(Request $request, EmployeePP $employeePP)
