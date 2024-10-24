@@ -17,11 +17,11 @@ echo Installing dependencies...
 call composer install
 
 echo Copying environment file...
-if exist .env.example (
-    copy .env.example .env
-    echo Environment file copied.
+if exist .env.encrypted (
+    call php artisan env:decrypt
+    echo Environment file decrypted.
 ) else (
-    echo .env.example not found. Skipping this step.
+    echo .env.encrypted not found. Skipping this step.
 )
 
 @REM echo Running migrations and seeding database...
@@ -30,9 +30,14 @@ if exist .env.example (
 echo Generating application key...
 call php artisan key:generate
 
+echo install blueprint
+call composer require -W --dev laravel-shift/blueprint
+call composer require --dev jasonmccreary/laravel-test-assertions
+
+
 echo npm install
 call npm install
 
 echo Setup complete, enter directory and run migrations and seeding database!
-
 echo php artisan migrate --seed --force
+
